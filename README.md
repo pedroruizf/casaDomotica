@@ -17,5 +17,5 @@ Se trata de una maqueta de casa domotizada con tres estancias, controlada con do
   * Motor DC de persiana
 
 ## Recursos utilizados
-* [Sensor DHT11](https://github.com/pedroruizf/casaDomotica.git)
+* [Sensor DHT11](https://programarfacil.com/blog/arduino-blog/sensor-dht11-temperatura-humedad-arduino/)
 * [Driver L298N para motores DC](https://electronilab.co/tutoriales/tutorial-de-uso-driver-dual-l298n-para-motores-dc-y-paso-a-paso-con-arduino/)
