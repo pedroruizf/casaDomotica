@@ -1,6 +1,7 @@
 # Proyecto de Casa Domótica
 Se trata de una maqueta de casa domotizada con tres estancias, controlada con dos arduinos uno comunicados por puerto serie:
- * Estancia principal
+
+* Estancia principal
   * Pulsador
   * Potenciómetro
   * LCD 2x16 I2C
