@@ -1,6 +1,6 @@
 # Proyecto de Casa Domótica
 Se trata de una maqueta de casa domotizada con tres estancias, controlada con dos arduinos uno comunicados por puerto serie:
-
+![vista general](/images/vista_general.jpg)
 * Estancia principal
   * Pulsador
   * Potenciómetro
@@ -8,15 +8,15 @@ Se trata de una maqueta de casa domotizada con tres estancias, controlada con do
   * Dos Leds
   * Motor DC de Puerta
   * Sensor de ultrasonidos (HC-SR04)
-
+![estancia principal](/images/estancia_principal.jpg)
 * Estancia 2
   * Sensor de temperatura y humedad (DHT11)
   * Ventilador
-
+![estancia con ventilador](/images/ventilador.jpg)
 * Estancia 3
   * Ldr
   * Motor DC de persiana
-
+![estancia con persiana](/images/persiana.jpg)
 ## Recursos utilizados
 * [Sensor DHT11](https://programarfacil.com/blog/arduino-blog/sensor-dht11-temperatura-humedad-arduino/)
 * [Driver L298N para motores DC](https://electronilab.co/tutoriales/tutorial-de-uso-driver-dual-l298n-para-motores-dc-y-paso-a-paso-con-arduino/)
