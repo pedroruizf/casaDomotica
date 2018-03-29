@@ -43,16 +43,17 @@ void setup() {
 }
 
 void loop() {
-  
-controlOpcion();
+
+  controlOpcion();
 
   if (alarma == true) {
     digitalWrite (ledRojo, HIGH);
     int cm = ping(triggerPin, echoPin);
     static char charCm[2];
     dtostrf(cm, 2, 0, charCm);
-    lcd.setCursor (0, 1); lcd.print ("dis(cm):");
-    lcd.setCursor(8, 1); lcd.print ( charCm);
+    lcd.setCursor (0, 1); lcd.print ("distancia:");
+    lcd.setCursor(11, 1); lcd.print ( charCm);
+    lcd.setCursor (14, 1); lcd.print ("cm");
 
     if (cm < 30) {
       digitalWrite (zumbador, HIGH);
@@ -62,26 +63,13 @@ controlOpcion();
       digitalWrite (zumbador, LOW);
     }
 
-controlOpcion();
+    controlOpcion();
   }
 
 
-  /*if (opcion == 1) {
-    borraLcd();
-    controlPuerta();
-    borraLcd();
-    opcion = 0;
-
-  }
-
-  else if (opcion == 2) {
-    alarma = true;
-    opcion = 0;
-
-  }*/
   switch (opcion) {
     //case 0:
-      //break;
+    //break;
     case 1://opción de apertura de puerta con pin, si acierta desactiva la alarma
       borraLcd();
       controlPuerta();
@@ -92,15 +80,15 @@ controlOpcion();
       alarma = true;
       opcion = 0;
       break;
-    /*case 3:
+    case 3:
       Serial.write (3);
       opcion = 0;
       break;
     case 4:
       Serial.write (4);
       opcion = 0;
-      break;*/
-    }
+      break;
+  }
 
 }
 
@@ -179,11 +167,11 @@ int ping(int triggerPin, int echoPin) {
 void borraLcd() {
 
   lcd.setCursor(0, 1); lcd.print("                "); //borra todos los caracteres usados
-  lcd.setCursor (12, 0); lcd.print("   ");
+  lcd.setCursor (12, 0); lcd.print("    ");
 }
 
 void controlOpcion() {
-lcd.setCursor (11, 0);
+  lcd.setCursor (11, 0);
   lcd.print (map (analogRead (poten), 0, 1021, 1, 4));
   lcd.setCursor (12, 0); lcd.print ("  ");
 
@@ -196,7 +184,7 @@ lcd.setCursor (11, 0);
     delay (300);// tiempo de antirebote
   }
 
-  
+
 }
 
 
