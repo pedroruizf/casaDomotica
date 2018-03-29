@@ -13,6 +13,7 @@ const int pin1MotorB = 6;
 const int pin2MotorB = 7;
 const int pinRMotorB = 5;
 int tiempo = 1000;// tiempo de apertura y cierre de puerta
+// contraseña de puerta
 const int pinCorrecto [4] = {4, 5, 6, 7}; //matriz de código pin de entrada a vivienda
 int pin [4] = {0, 0, 0, 0}; //matriz de código introducido
 int contador = 0;
@@ -33,6 +34,7 @@ void setup() {
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
   Serial.begin (9600);
+  //incialización de lcd
   lcd.init();// inicializa el lcd
   lcd.backlight();
   lcd.setCursor(3, 0);
@@ -41,20 +43,8 @@ void setup() {
 }
 
 void loop() {
-  lcd.setCursor (11, 0);
-  lcd.print (map (analogRead (poten), 0, 1021, 1, 9));
-  lcd.setCursor (12, 0); lcd.print ("  ");
-
-  if (digitalRead(pulsador) == HIGH) {
-    opcion = map (analogRead (poten), 0, 1021, 1, 9);
-    lcd.setCursor (12, 0); lcd.print ("//");
-    digitalWrite (zumbador, HIGH);
-    delay (200);
-    digitalWrite (zumbador, LOW);
-    delay (300);// tiempo de antirebote
-  }
-
-
+  
+controlOpcion();
 
   if (alarma == true) {
     digitalWrite (ledRojo, HIGH);
@@ -72,41 +62,61 @@ void loop() {
       digitalWrite (zumbador, LOW);
     }
 
-
+controlOpcion();
   }
 
 
+  /*if (opcion == 1) {
+    borraLcd();
+    controlPuerta();
+    borraLcd();
+    opcion = 0;
+
+  }
+
+  else if (opcion == 2) {
+    alarma = true;
+    opcion = 0;
+
+  }*/
   switch (opcion) {
-    case 1:
+    //case 0:
+      //break;
+    case 1://opción de apertura de puerta con pin, si acierta desactiva la alarma
       borraLcd();
       controlPuerta();
       borraLcd();
       opcion = 0;
       break;
-    case 2:
+    case 2://activa la alarma
       alarma = true;
       opcion = 0;
       break;
-  }
+    /*case 3:
+      Serial.write (3);
+      opcion = 0;
+      break;
+    case 4:
+      Serial.write (4);
+      opcion = 0;
+      break;*/
+    }
 
 }
 
 
 
 void controlPuerta () {
-  // introducción de pin
+  // introducción de pin, se repite el proceso 4 veces (pin de 4 numeros)
   contador = 0;
   while (contador < 4) {
-    lcd.setCursor (15, 0);
-    lcd.print (map (analogRead (A0), 0, 1021, 1, 9));
-    lcd.setCursor (12, 0); lcd.print ("  ");
+    lcd.setCursor (15, 0); lcd.print (map (analogRead (A0), 0, 1021, 0, 9));
     lcd.setCursor (3, 1); lcd.print ("pin:");
 
     if (digitalRead (pulsador) == HIGH) {
 
-      pin[contador] = map (analogRead (poten), 0, 1021, 1, 9);
-      lcd.setCursor (contador + 8, 1);
-      lcd.print (pin[contador]);
+      pin[contador] = map (analogRead (poten), 0, 1021, 0, 9);
+      lcd.setCursor (contador + 8, 1); lcd.print (pin[contador]);
       //digitalWrite (zumbador, HIGH);
       //delay (200);
       //digitalWrite (zumbador, LOW);
@@ -169,9 +179,25 @@ int ping(int triggerPin, int echoPin) {
 void borraLcd() {
 
   lcd.setCursor(0, 1); lcd.print("                "); //borra todos los caracteres usados
-  lcd.setCursor (15, 0); lcd.print(" ");
+  lcd.setCursor (12, 0); lcd.print("   ");
 }
 
+void controlOpcion() {
+lcd.setCursor (11, 0);
+  lcd.print (map (analogRead (poten), 0, 1021, 1, 4));
+  lcd.setCursor (12, 0); lcd.print ("  ");
+
+  if (digitalRead(pulsador) == HIGH) {
+    opcion = map (analogRead (poten), 0, 1021, 1, 4);
+    lcd.setCursor (12, 0); lcd.print ("//");
+    /*digitalWrite (zumbador, HIGH);
+      delay (200);
+      digitalWrite (zumbador, LOW);*/
+    delay (300);// tiempo de antirebote
+  }
+
+  
+}
 
 
 
