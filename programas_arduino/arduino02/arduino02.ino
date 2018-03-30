@@ -10,6 +10,7 @@ uint32_t delayMS;
 
 boolean ventilador = false;
 boolean persiana = false;
+boolean persianaAbajo = true;
 const int dht11 = 2;
 const int pinMotorAR = 3;
 const int pinMotorA1 = 4;
@@ -60,6 +61,15 @@ void loop() {
     digitalWrite (pinMotorA2, LOW);
   }
 
+  if (persiana == true) {
+    controlaPersiana();
+    compruebaSerie();
+
+  }
+
+  else {
+
+  }
 }
 
 void controlaVentilador() {
@@ -105,8 +115,37 @@ int mideDHT11() {//función que devuelve la temperatura de la sala con el DHT11
 }
 
 
-void controlaPersiana() {
+void controlaPersiana() {//la persiana tiene que partir desde posición inferior (abajo)
+  int luz = analogRead(ldr);
+  int tiempo=400;
+  Serial.println(luz);
+  if (luz <= 512 && persianaAbajo == true) { //si hay poca luz y la persiana está abajo la sube
+    analogWrite (pinMotorBR, 90);
+    digitalWrite (pinMotorB1, HIGH);
+    digitalWrite (pinMotorB2, LOW);
+    delay (tiempo);
+    digitalWrite (pinMotorB1, LOW);
+    digitalWrite (pinMotorB2, LOW);
+    persianaAbajo = !persianaAbajo;
 
+  }
+
+  else if (luz > 512 && persianaAbajo == false) { // si hay mucha luz y la persiana está arriba la baja
+    analogWrite (pinMotorBR, 90);
+    digitalWrite (pinMotorB1, LOW);
+    digitalWrite (pinMotorB2, HIGH);
+    delay (tiempo);
+    digitalWrite (pinMotorB1, LOW);
+    digitalWrite (pinMotorB2, LOW);
+    persianaAbajo = !persianaAbajo;
+
+
+  }
+
+  else {
+    digitalWrite (pinMotorB1, LOW);
+    digitalWrite (pinMotorB2, LOW);
+  }
 
 }
 
@@ -120,7 +159,10 @@ void compruebaSerie() {
       ventilador = !ventilador;
 
     }
+    if (dato == 4) {
+      persiana = !persiana;
 
+    }
   }
 
 
