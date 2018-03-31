@@ -1,3 +1,8 @@
+//Librerias de LCD y configuración del mismo
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2); // set the LCD address to 0x27 for a 16 chars and 2 line display
+// fin LCD
 //Configuración necesaria para DHT11
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
@@ -34,7 +39,17 @@ void setup() {
   // Set delay between sensor readings based on sensor details.
   delayMS = sensor.min_delay / 1000;
   // Fin DHT11
+  //Inicializa el LCD
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0); lcd.print ("Ven.:");
+  lcd.setCursor (5, 0); lcd.print (ventilador);
+  lcd.setCursor(7, 0); lcd.print ("Per.:");
+  lcd.setCursor (12, 0); lcd.print (persiana);
+  lcd.setCursor (0, 1); lcd.print ("T *C:");
+  lcd.setCursor (8, 1); lcd.print ("Luz:");
 
+  //fin LCD
   pinMode (dht11, INPUT);
   pinMode (pinMotorAR, OUTPUT);
   pinMode (pinMotorA1, OUTPUT);
@@ -50,6 +65,7 @@ void loop() {
 
   if (ventilador == true) {
 
+    lcd.setCursor (5, 0); lcd.print (ventilador);
     controlaVentilador();
     compruebaSerie();
 
@@ -57,17 +73,20 @@ void loop() {
 
   else {
 
+    lcd.setCursor (5, 0); lcd.print (ventilador);
     digitalWrite (pinMotorA1, LOW);
     digitalWrite (pinMotorA2, LOW);
   }
 
   if (persiana == true) {
+    lcd.setCursor (12, 0); lcd.print (persiana);
     controlaPersiana();
     compruebaSerie();
 
   }
 
   else {
+    lcd.setCursor (12, 0); lcd.print (persiana);
 
   }
 }
@@ -75,7 +94,8 @@ void loop() {
 void controlaVentilador() {
 
   int temperatura = mideDHT11();
-  Serial.println (temperatura);
+  //Serial.println (temperatura);
+  lcd.setCursor(5, 1); lcd.print (temperatura);
   delay (1000);
   if (temperatura >= 25) {//pone en marcha al ventilador
     analogWrite (pinMotorAR, 255);
@@ -117,8 +137,9 @@ int mideDHT11() {//función que devuelve la temperatura de la sala con el DHT11
 
 void controlaPersiana() {//la persiana tiene que partir desde posición inferior (abajo)
   int luz = analogRead(ldr);
-  int tiempo=400;
-  Serial.println(luz);
+  int tiempo = 400;
+  //Serial.println(luz);
+  lcd.setCursor(12, 1); lcd.print (luz);
   if (luz <= 512 && persianaAbajo == true) { //si hay poca luz y la persiana está abajo la sube
     analogWrite (pinMotorBR, 90);
     digitalWrite (pinMotorB1, HIGH);
