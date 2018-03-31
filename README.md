@@ -1,4 +1,5 @@
 # Proyecto de Casa Domótica
+Este proyecto es original de *Maribel Ruiz Martínez*, el cual lo he adaptado para mi alumnado de 4º de ESO.
 Se trata de una maqueta de casa domotizada con tres estancias, controlada con dos arduinos uno comunicados por puerto serie:
 ![vista general](/images/vista_general.jpg)
 * Estancia principal
