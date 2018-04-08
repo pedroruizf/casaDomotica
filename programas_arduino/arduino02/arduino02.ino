@@ -137,11 +137,11 @@ int mideDHT11() {//función que devuelve la temperatura de la sala con el DHT11
 
 void controlaPersiana() {//la persiana tiene que partir desde posición inferior (abajo)
   int luz = analogRead(ldr);
-  int tiempo = 400;
+  int tiempo = 500;
   //Serial.println(luz);
   lcd.setCursor(12, 1); lcd.print (luz);
   if (luz <= 512 && persianaAbajo == true) { //si hay poca luz y la persiana está abajo la sube
-    analogWrite (pinMotorBR, 90);
+    analogWrite (pinMotorBR, 150);
     digitalWrite (pinMotorB1, HIGH);
     digitalWrite (pinMotorB2, LOW);
     delay (tiempo);
